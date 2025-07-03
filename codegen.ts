@@ -1,10 +1,35 @@
 import type { CodegenConfig } from '@graphql-codegen/cli';
 
 const config: CodegenConfig = {
-    schema: 'https://countries.trevorblades.com/',
-    documents: ['src/graphql/**/*.graphql'],
     generates: {
-        'src/graphql/generated.ts': {
+        'src/graphql/generated-boards.ts': {
+            schema: {
+                'http://localhost:1337/v1/graphql': {
+                    headers: {
+                        'x-hasura-admin-secret': 'nhost-admin-secret',
+                    },
+                },
+            },
+            documents: ['src/graphql/boards.graphql'],
+            plugins: [
+                'typescript',
+                'typescript-operations',
+                'typescript-react-apollo'
+            ],
+            config: {
+                scalars: {
+                    bigint: 'string',
+                    bytea: 'string',
+                    citext: 'string',
+                    jsonb: 'Record<string, unknown>',
+                    timestamptz: 'string',
+                    uuid: 'string',
+                },
+            },
+        },
+        'src/graphql/generated-countries.ts': {
+            schema: 'https://countries.trevorblades.com/graphql',
+            documents: ['src/graphql/countries.graphql'],
             plugins: [
                 'typescript',
                 'typescript-operations',

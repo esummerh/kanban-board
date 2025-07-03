@@ -12,6 +12,9 @@
   "dependencies": {
     "@apollo/client": "^3.13.8",
     "@apollo/client-integration-nextjs": "^0.12.2",
+    "@nhost/apollo": "9.0.0",
+    "@nhost/nextjs": "2.2.9",
+    "@nhost/nhost-js": "3.3.0",
     "@radix-ui/react-slot": "^1.2.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -38,5 +41,14 @@
     "tailwindcss": "^4",
     "tw-animate-css": "^1.3.4",
     "typescript": "^5"
+  },
+  "pnpm": {
+    "overrides": {
+      "@nhost/nhost-js": "3.3.0",
+      "graphql": "16.11.0"
+    }
+  },
+  "resolutions": {
+    "graphql": "16.11.0"
   }
 }

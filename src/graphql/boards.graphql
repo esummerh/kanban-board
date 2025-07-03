@@ -1,0 +1,6 @@
+query Boards {
+  boards {
+    id
+    name
+  }
+}
