@@ -1,3 +1,4 @@
 .nhost
 .secrets
 cli/
+node_modules/
