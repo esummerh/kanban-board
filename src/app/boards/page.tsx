@@ -3,6 +3,7 @@
 import { ApolloProvider } from '@apollo/client'
 import nhostClient from '@/lib/nhost-client'
 import { useBoardsQuery } from '@/graphql/generated-boards'
+import Link from 'next/link'
 
 function BoardsContent() {
     const { data, loading, error } = useBoardsQuery()
@@ -14,7 +15,9 @@ function BoardsContent() {
         <ul className="space-y-2">
             {data?.boards.map((board) => (
                 <li key={board.id} className="p-2 border rounded">
-                    {board.name}
+                    <Link href={`/board/${board.id}`} className="text-blue-600 hover:underline">
+                        {board.name}
+                    </Link>
                 </li>
             ))}
         </ul>

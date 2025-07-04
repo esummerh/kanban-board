@@ -1898,9 +1898,34 @@ export type Bigint_Comparison_Exp = {
 /** columns and relationships of "boards" */
 export type Boards = {
   __typename?: "boards";
+  /** An array relationship */
+  columns: Array<Columns>;
+  /** An aggregate relationship */
+  columns_aggregate: Columns_Aggregate;
   created_at: Scalars["timestamptz"]["output"];
   id: Scalars["uuid"]["output"];
   name: Scalars["String"]["output"];
+  /** An object relationship */
+  user?: Maybe<Users>;
+  user_id?: Maybe<Scalars["uuid"]["output"]>;
+};
+
+/** columns and relationships of "boards" */
+export type BoardsColumnsArgs = {
+  distinct_on?: InputMaybe<Array<Columns_Select_Column>>;
+  limit?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  order_by?: InputMaybe<Array<Columns_Order_By>>;
+  where?: InputMaybe<Columns_Bool_Exp>;
+};
+
+/** columns and relationships of "boards" */
+export type BoardsColumns_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Columns_Select_Column>>;
+  limit?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  order_by?: InputMaybe<Array<Columns_Order_By>>;
+  where?: InputMaybe<Columns_Bool_Exp>;
 };
 
 /** aggregated selection of "boards" */
@@ -1929,9 +1954,13 @@ export type Boards_Bool_Exp = {
   _and?: InputMaybe<Array<Boards_Bool_Exp>>;
   _not?: InputMaybe<Boards_Bool_Exp>;
   _or?: InputMaybe<Array<Boards_Bool_Exp>>;
+  columns?: InputMaybe<Columns_Bool_Exp>;
+  columns_aggregate?: InputMaybe<Columns_Aggregate_Bool_Exp>;
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
+  user?: InputMaybe<Users_Bool_Exp>;
+  user_id?: InputMaybe<Uuid_Comparison_Exp>;
 };
 
 /** unique or primary key constraints on table "boards" */
@@ -1942,9 +1971,12 @@ export enum Boards_Constraint {
 
 /** input type for inserting data into table "boards" */
 export type Boards_Insert_Input = {
+  columns?: InputMaybe<Columns_Arr_Rel_Insert_Input>;
   created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
   id?: InputMaybe<Scalars["uuid"]["input"]>;
   name?: InputMaybe<Scalars["String"]["input"]>;
+  user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
+  user_id?: InputMaybe<Scalars["uuid"]["input"]>;
 };
 
 /** aggregate max on columns */
@@ -1953,6 +1985,7 @@ export type Boards_Max_Fields = {
   created_at?: Maybe<Scalars["timestamptz"]["output"]>;
   id?: Maybe<Scalars["uuid"]["output"]>;
   name?: Maybe<Scalars["String"]["output"]>;
+  user_id?: Maybe<Scalars["uuid"]["output"]>;
 };
 
 /** aggregate min on columns */
@@ -1961,6 +1994,7 @@ export type Boards_Min_Fields = {
   created_at?: Maybe<Scalars["timestamptz"]["output"]>;
   id?: Maybe<Scalars["uuid"]["output"]>;
   name?: Maybe<Scalars["String"]["output"]>;
+  user_id?: Maybe<Scalars["uuid"]["output"]>;
 };
 
 /** response of any mutation on the table "boards" */
@@ -1972,6 +2006,13 @@ export type Boards_Mutation_Response = {
   returning: Array<Boards>;
 };
 
+/** input type for inserting object relation for remote table "boards" */
+export type Boards_Obj_Rel_Insert_Input = {
+  data: Boards_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Boards_On_Conflict>;
+};
+
 /** on_conflict condition type for table "boards" */
 export type Boards_On_Conflict = {
   constraint: Boards_Constraint;
@@ -1981,9 +2022,12 @@ export type Boards_On_Conflict = {
 
 /** Ordering options when selecting data from "boards". */
 export type Boards_Order_By = {
+  columns_aggregate?: InputMaybe<Columns_Aggregate_Order_By>;
   created_at?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
+  user?: InputMaybe<Users_Order_By>;
+  user_id?: InputMaybe<Order_By>;
 };
 
 /** primary key columns input for table: boards */
@@ -1999,6 +2043,8 @@ export enum Boards_Select_Column {
   Id = "id",
   /** column name */
   Name = "name",
+  /** column name */
+  UserId = "user_id",
 }
 
 /** input type for updating data in table "boards" */
@@ -2006,6 +2052,7 @@ export type Boards_Set_Input = {
   created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
   id?: InputMaybe<Scalars["uuid"]["input"]>;
   name?: InputMaybe<Scalars["String"]["input"]>;
+  user_id?: InputMaybe<Scalars["uuid"]["input"]>;
 };
 
 /** Streaming cursor of the table "boards" */
@@ -2021,6 +2068,7 @@ export type Boards_Stream_Cursor_Value_Input = {
   created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
   id?: InputMaybe<Scalars["uuid"]["input"]>;
   name?: InputMaybe<Scalars["String"]["input"]>;
+  user_id?: InputMaybe<Scalars["uuid"]["input"]>;
 };
 
 /** update columns of table "boards" */
@@ -2031,6 +2079,8 @@ export enum Boards_Update_Column {
   Id = "id",
   /** column name */
   Name = "name",
+  /** column name */
+  UserId = "user_id",
 }
 
 export type Boards_Updates = {
@@ -2373,6 +2423,8 @@ export type Bytea_Comparison_Exp = {
 /** columns and relationships of "cards" */
 export type Cards = {
   __typename?: "cards";
+  /** An object relationship */
+  column: Columns;
   column_id: Scalars["uuid"]["output"];
   created_at: Scalars["timestamptz"]["output"];
   description?: Maybe<Scalars["String"]["output"]>;
@@ -2387,6 +2439,17 @@ export type Cards_Aggregate = {
   __typename?: "cards_aggregate";
   aggregate?: Maybe<Cards_Aggregate_Fields>;
   nodes: Array<Cards>;
+};
+
+export type Cards_Aggregate_Bool_Exp = {
+  count?: InputMaybe<Cards_Aggregate_Bool_Exp_Count>;
+};
+
+export type Cards_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Cards_Select_Column>>;
+  distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
+  filter?: InputMaybe<Cards_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
 };
 
 /** aggregate fields of "cards" */
@@ -2411,10 +2474,37 @@ export type Cards_Aggregate_FieldsCountArgs = {
   distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
 };
 
+/** order by aggregate values of table "cards" */
+export type Cards_Aggregate_Order_By = {
+  avg?: InputMaybe<Cards_Avg_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Cards_Max_Order_By>;
+  min?: InputMaybe<Cards_Min_Order_By>;
+  stddev?: InputMaybe<Cards_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<Cards_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<Cards_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<Cards_Sum_Order_By>;
+  var_pop?: InputMaybe<Cards_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<Cards_Var_Samp_Order_By>;
+  variance?: InputMaybe<Cards_Variance_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "cards" */
+export type Cards_Arr_Rel_Insert_Input = {
+  data: Array<Cards_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Cards_On_Conflict>;
+};
+
 /** aggregate avg on columns */
 export type Cards_Avg_Fields = {
   __typename?: "cards_avg_fields";
   order?: Maybe<Scalars["Float"]["output"]>;
+};
+
+/** order by avg() on columns of table "cards" */
+export type Cards_Avg_Order_By = {
+  order?: InputMaybe<Order_By>;
 };
 
 /** Boolean expression to filter rows from the table "cards". All fields are combined with a logical 'AND'. */
@@ -2422,6 +2512,7 @@ export type Cards_Bool_Exp = {
   _and?: InputMaybe<Array<Cards_Bool_Exp>>;
   _not?: InputMaybe<Cards_Bool_Exp>;
   _or?: InputMaybe<Array<Cards_Bool_Exp>>;
+  column?: InputMaybe<Columns_Bool_Exp>;
   column_id?: InputMaybe<Uuid_Comparison_Exp>;
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   description?: InputMaybe<String_Comparison_Exp>;
@@ -2444,6 +2535,7 @@ export type Cards_Inc_Input = {
 
 /** input type for inserting data into table "cards" */
 export type Cards_Insert_Input = {
+  column?: InputMaybe<Columns_Obj_Rel_Insert_Input>;
   column_id?: InputMaybe<Scalars["uuid"]["input"]>;
   created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
   description?: InputMaybe<Scalars["String"]["input"]>;
@@ -2465,6 +2557,17 @@ export type Cards_Max_Fields = {
   updated_at?: Maybe<Scalars["timestamptz"]["output"]>;
 };
 
+/** order by max() on columns of table "cards" */
+export type Cards_Max_Order_By = {
+  column_id?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  description?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  order?: InputMaybe<Order_By>;
+  title?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+};
+
 /** aggregate min on columns */
 export type Cards_Min_Fields = {
   __typename?: "cards_min_fields";
@@ -2475,6 +2578,17 @@ export type Cards_Min_Fields = {
   order?: Maybe<Scalars["Int"]["output"]>;
   title?: Maybe<Scalars["String"]["output"]>;
   updated_at?: Maybe<Scalars["timestamptz"]["output"]>;
+};
+
+/** order by min() on columns of table "cards" */
+export type Cards_Min_Order_By = {
+  column_id?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  description?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  order?: InputMaybe<Order_By>;
+  title?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "cards" */
@@ -2495,6 +2609,7 @@ export type Cards_On_Conflict = {
 
 /** Ordering options when selecting data from "cards". */
 export type Cards_Order_By = {
+  column?: InputMaybe<Columns_Order_By>;
   column_id?: InputMaybe<Order_By>;
   created_at?: InputMaybe<Order_By>;
   description?: InputMaybe<Order_By>;
@@ -2544,16 +2659,31 @@ export type Cards_Stddev_Fields = {
   order?: Maybe<Scalars["Float"]["output"]>;
 };
 
+/** order by stddev() on columns of table "cards" */
+export type Cards_Stddev_Order_By = {
+  order?: InputMaybe<Order_By>;
+};
+
 /** aggregate stddev_pop on columns */
 export type Cards_Stddev_Pop_Fields = {
   __typename?: "cards_stddev_pop_fields";
   order?: Maybe<Scalars["Float"]["output"]>;
 };
 
+/** order by stddev_pop() on columns of table "cards" */
+export type Cards_Stddev_Pop_Order_By = {
+  order?: InputMaybe<Order_By>;
+};
+
 /** aggregate stddev_samp on columns */
 export type Cards_Stddev_Samp_Fields = {
   __typename?: "cards_stddev_samp_fields";
   order?: Maybe<Scalars["Float"]["output"]>;
+};
+
+/** order by stddev_samp() on columns of table "cards" */
+export type Cards_Stddev_Samp_Order_By = {
+  order?: InputMaybe<Order_By>;
 };
 
 /** Streaming cursor of the table "cards" */
@@ -2579,6 +2709,11 @@ export type Cards_Stream_Cursor_Value_Input = {
 export type Cards_Sum_Fields = {
   __typename?: "cards_sum_fields";
   order?: Maybe<Scalars["Int"]["output"]>;
+};
+
+/** order by sum() on columns of table "cards" */
+export type Cards_Sum_Order_By = {
+  order?: InputMaybe<Order_By>;
 };
 
 /** update columns of table "cards" */
@@ -2614,16 +2749,31 @@ export type Cards_Var_Pop_Fields = {
   order?: Maybe<Scalars["Float"]["output"]>;
 };
 
+/** order by var_pop() on columns of table "cards" */
+export type Cards_Var_Pop_Order_By = {
+  order?: InputMaybe<Order_By>;
+};
+
 /** aggregate var_samp on columns */
 export type Cards_Var_Samp_Fields = {
   __typename?: "cards_var_samp_fields";
   order?: Maybe<Scalars["Float"]["output"]>;
 };
 
+/** order by var_samp() on columns of table "cards" */
+export type Cards_Var_Samp_Order_By = {
+  order?: InputMaybe<Order_By>;
+};
+
 /** aggregate variance on columns */
 export type Cards_Variance_Fields = {
   __typename?: "cards_variance_fields";
   order?: Maybe<Scalars["Float"]["output"]>;
+};
+
+/** order by variance() on columns of table "cards" */
+export type Cards_Variance_Order_By = {
+  order?: InputMaybe<Order_By>;
 };
 
 /** Boolean expression to compare columns of type "citext". All fields are combined with logical 'AND'. */
@@ -2662,11 +2812,35 @@ export type Citext_Comparison_Exp = {
 /** columns and relationships of "columns" */
 export type Columns = {
   __typename?: "columns";
+  /** An object relationship */
+  board: Boards;
   board_id: Scalars["uuid"]["output"];
+  /** An array relationship */
+  cards: Array<Cards>;
+  /** An aggregate relationship */
+  cards_aggregate: Cards_Aggregate;
   created_at: Scalars["timestamptz"]["output"];
   id: Scalars["uuid"]["output"];
   name: Scalars["String"]["output"];
   order: Scalars["Int"]["output"];
+};
+
+/** columns and relationships of "columns" */
+export type ColumnsCardsArgs = {
+  distinct_on?: InputMaybe<Array<Cards_Select_Column>>;
+  limit?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  order_by?: InputMaybe<Array<Cards_Order_By>>;
+  where?: InputMaybe<Cards_Bool_Exp>;
+};
+
+/** columns and relationships of "columns" */
+export type ColumnsCards_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Cards_Select_Column>>;
+  limit?: InputMaybe<Scalars["Int"]["input"]>;
+  offset?: InputMaybe<Scalars["Int"]["input"]>;
+  order_by?: InputMaybe<Array<Cards_Order_By>>;
+  where?: InputMaybe<Cards_Bool_Exp>;
 };
 
 /** aggregated selection of "columns" */
@@ -2674,6 +2848,17 @@ export type Columns_Aggregate = {
   __typename?: "columns_aggregate";
   aggregate?: Maybe<Columns_Aggregate_Fields>;
   nodes: Array<Columns>;
+};
+
+export type Columns_Aggregate_Bool_Exp = {
+  count?: InputMaybe<Columns_Aggregate_Bool_Exp_Count>;
+};
+
+export type Columns_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Columns_Select_Column>>;
+  distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
+  filter?: InputMaybe<Columns_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
 };
 
 /** aggregate fields of "columns" */
@@ -2698,10 +2883,37 @@ export type Columns_Aggregate_FieldsCountArgs = {
   distinct?: InputMaybe<Scalars["Boolean"]["input"]>;
 };
 
+/** order by aggregate values of table "columns" */
+export type Columns_Aggregate_Order_By = {
+  avg?: InputMaybe<Columns_Avg_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Columns_Max_Order_By>;
+  min?: InputMaybe<Columns_Min_Order_By>;
+  stddev?: InputMaybe<Columns_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<Columns_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<Columns_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<Columns_Sum_Order_By>;
+  var_pop?: InputMaybe<Columns_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<Columns_Var_Samp_Order_By>;
+  variance?: InputMaybe<Columns_Variance_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "columns" */
+export type Columns_Arr_Rel_Insert_Input = {
+  data: Array<Columns_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Columns_On_Conflict>;
+};
+
 /** aggregate avg on columns */
 export type Columns_Avg_Fields = {
   __typename?: "columns_avg_fields";
   order?: Maybe<Scalars["Float"]["output"]>;
+};
+
+/** order by avg() on columns of table "columns" */
+export type Columns_Avg_Order_By = {
+  order?: InputMaybe<Order_By>;
 };
 
 /** Boolean expression to filter rows from the table "columns". All fields are combined with a logical 'AND'. */
@@ -2709,7 +2921,10 @@ export type Columns_Bool_Exp = {
   _and?: InputMaybe<Array<Columns_Bool_Exp>>;
   _not?: InputMaybe<Columns_Bool_Exp>;
   _or?: InputMaybe<Array<Columns_Bool_Exp>>;
+  board?: InputMaybe<Boards_Bool_Exp>;
   board_id?: InputMaybe<Uuid_Comparison_Exp>;
+  cards?: InputMaybe<Cards_Bool_Exp>;
+  cards_aggregate?: InputMaybe<Cards_Aggregate_Bool_Exp>;
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
@@ -2731,7 +2946,9 @@ export type Columns_Inc_Input = {
 
 /** input type for inserting data into table "columns" */
 export type Columns_Insert_Input = {
+  board?: InputMaybe<Boards_Obj_Rel_Insert_Input>;
   board_id?: InputMaybe<Scalars["uuid"]["input"]>;
+  cards?: InputMaybe<Cards_Arr_Rel_Insert_Input>;
   created_at?: InputMaybe<Scalars["timestamptz"]["input"]>;
   id?: InputMaybe<Scalars["uuid"]["input"]>;
   name?: InputMaybe<Scalars["String"]["input"]>;
@@ -2748,6 +2965,15 @@ export type Columns_Max_Fields = {
   order?: Maybe<Scalars["Int"]["output"]>;
 };
 
+/** order by max() on columns of table "columns" */
+export type Columns_Max_Order_By = {
+  board_id?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+  order?: InputMaybe<Order_By>;
+};
+
 /** aggregate min on columns */
 export type Columns_Min_Fields = {
   __typename?: "columns_min_fields";
@@ -2756,6 +2982,15 @@ export type Columns_Min_Fields = {
   id?: Maybe<Scalars["uuid"]["output"]>;
   name?: Maybe<Scalars["String"]["output"]>;
   order?: Maybe<Scalars["Int"]["output"]>;
+};
+
+/** order by min() on columns of table "columns" */
+export type Columns_Min_Order_By = {
+  board_id?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+  order?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "columns" */
@@ -2767,6 +3002,13 @@ export type Columns_Mutation_Response = {
   returning: Array<Columns>;
 };
 
+/** input type for inserting object relation for remote table "columns" */
+export type Columns_Obj_Rel_Insert_Input = {
+  data: Columns_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Columns_On_Conflict>;
+};
+
 /** on_conflict condition type for table "columns" */
 export type Columns_On_Conflict = {
   constraint: Columns_Constraint;
@@ -2776,7 +3018,9 @@ export type Columns_On_Conflict = {
 
 /** Ordering options when selecting data from "columns". */
 export type Columns_Order_By = {
+  board?: InputMaybe<Boards_Order_By>;
   board_id?: InputMaybe<Order_By>;
+  cards_aggregate?: InputMaybe<Cards_Aggregate_Order_By>;
   created_at?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
@@ -2817,16 +3061,31 @@ export type Columns_Stddev_Fields = {
   order?: Maybe<Scalars["Float"]["output"]>;
 };
 
+/** order by stddev() on columns of table "columns" */
+export type Columns_Stddev_Order_By = {
+  order?: InputMaybe<Order_By>;
+};
+
 /** aggregate stddev_pop on columns */
 export type Columns_Stddev_Pop_Fields = {
   __typename?: "columns_stddev_pop_fields";
   order?: Maybe<Scalars["Float"]["output"]>;
 };
 
+/** order by stddev_pop() on columns of table "columns" */
+export type Columns_Stddev_Pop_Order_By = {
+  order?: InputMaybe<Order_By>;
+};
+
 /** aggregate stddev_samp on columns */
 export type Columns_Stddev_Samp_Fields = {
   __typename?: "columns_stddev_samp_fields";
   order?: Maybe<Scalars["Float"]["output"]>;
+};
+
+/** order by stddev_samp() on columns of table "columns" */
+export type Columns_Stddev_Samp_Order_By = {
+  order?: InputMaybe<Order_By>;
 };
 
 /** Streaming cursor of the table "columns" */
@@ -2850,6 +3109,11 @@ export type Columns_Stream_Cursor_Value_Input = {
 export type Columns_Sum_Fields = {
   __typename?: "columns_sum_fields";
   order?: Maybe<Scalars["Int"]["output"]>;
+};
+
+/** order by sum() on columns of table "columns" */
+export type Columns_Sum_Order_By = {
+  order?: InputMaybe<Order_By>;
 };
 
 /** update columns of table "columns" */
@@ -2881,16 +3145,31 @@ export type Columns_Var_Pop_Fields = {
   order?: Maybe<Scalars["Float"]["output"]>;
 };
 
+/** order by var_pop() on columns of table "columns" */
+export type Columns_Var_Pop_Order_By = {
+  order?: InputMaybe<Order_By>;
+};
+
 /** aggregate var_samp on columns */
 export type Columns_Var_Samp_Fields = {
   __typename?: "columns_var_samp_fields";
   order?: Maybe<Scalars["Float"]["output"]>;
 };
 
+/** order by var_samp() on columns of table "columns" */
+export type Columns_Var_Samp_Order_By = {
+  order?: InputMaybe<Order_By>;
+};
+
 /** aggregate variance on columns */
 export type Columns_Variance_Fields = {
   __typename?: "columns_variance_fields";
   order?: Maybe<Scalars["Float"]["output"]>;
+};
+
+/** order by variance() on columns of table "columns" */
+export type Columns_Variance_Order_By = {
+  order?: InputMaybe<Order_By>;
 };
 
 /** ordering argument of a cursor */
@@ -4360,15 +4639,15 @@ export type Query_Root = {
   buckets: Array<Buckets>;
   /** fetch aggregated fields from the table: "storage.buckets" */
   bucketsAggregate: Buckets_Aggregate;
-  /** fetch data from the table: "cards" */
+  /** An array relationship */
   cards: Array<Cards>;
-  /** fetch aggregated fields from the table: "cards" */
+  /** An aggregate relationship */
   cards_aggregate: Cards_Aggregate;
   /** fetch data from the table: "cards" using primary key columns */
   cards_by_pk?: Maybe<Cards>;
-  /** fetch data from the table: "columns" */
+  /** An array relationship */
   columns: Array<Columns>;
-  /** fetch aggregated fields from the table: "columns" */
+  /** An aggregate relationship */
   columns_aggregate: Columns_Aggregate;
   /** fetch data from the table: "columns" using primary key columns */
   columns_by_pk?: Maybe<Columns>;
@@ -4774,17 +5053,17 @@ export type Subscription_Root = {
   bucketsAggregate: Buckets_Aggregate;
   /** fetch data from the table in a streaming manner: "storage.buckets" */
   buckets_stream: Array<Buckets>;
-  /** fetch data from the table: "cards" */
+  /** An array relationship */
   cards: Array<Cards>;
-  /** fetch aggregated fields from the table: "cards" */
+  /** An aggregate relationship */
   cards_aggregate: Cards_Aggregate;
   /** fetch data from the table: "cards" using primary key columns */
   cards_by_pk?: Maybe<Cards>;
   /** fetch data from the table in a streaming manner: "cards" */
   cards_stream: Array<Cards>;
-  /** fetch data from the table: "columns" */
+  /** An array relationship */
   columns: Array<Columns>;
-  /** fetch aggregated fields from the table: "columns" */
+  /** An aggregate relationship */
   columns_aggregate: Columns_Aggregate;
   /** fetch data from the table: "columns" using primary key columns */
   columns_by_pk?: Maybe<Columns>;
@@ -6147,6 +6426,38 @@ export type BoardsQuery = {
   boards: Array<{ __typename?: "boards"; id: string; name: string }>;
 };
 
+export type GetBoardsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetBoardsQuery = {
+  __typename?: "query_root";
+  boards: Array<{ __typename?: "boards"; id: string; name: string }>;
+};
+
+export type GetBoardQueryVariables = Exact<{
+  id: Scalars["uuid"]["input"];
+}>;
+
+export type GetBoardQuery = {
+  __typename?: "query_root";
+  boards_by_pk?: {
+    __typename?: "boards";
+    id: string;
+    name: string;
+    columns: Array<{
+      __typename?: "columns";
+      id: string;
+      name: string;
+      order: number;
+      cards: Array<{
+        __typename?: "cards";
+        id: string;
+        description?: string | null;
+        order?: number | null;
+      }>;
+    }>;
+  } | null;
+};
+
 export const BoardsDocument = gql`
   query Boards {
     boards {
@@ -6211,4 +6522,159 @@ export type BoardsSuspenseQueryHookResult = ReturnType<
 export type BoardsQueryResult = Apollo.QueryResult<
   BoardsQuery,
   BoardsQueryVariables
+>;
+export const GetBoardsDocument = gql`
+  query GetBoards {
+    boards(where: { user_id: { _eq: "X-Hasura-User-Id" } }) {
+      id
+      name
+    }
+  }
+`;
+
+/**
+ * __useGetBoardsQuery__
+ *
+ * To run a query within a React component, call `useGetBoardsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetBoardsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetBoardsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetBoardsQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetBoardsQuery,
+    GetBoardsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetBoardsQuery, GetBoardsQueryVariables>(
+    GetBoardsDocument,
+    options,
+  );
+}
+export function useGetBoardsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetBoardsQuery,
+    GetBoardsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetBoardsQuery, GetBoardsQueryVariables>(
+    GetBoardsDocument,
+    options,
+  );
+}
+export function useGetBoardsSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<GetBoardsQuery, GetBoardsQueryVariables>,
+) {
+  const options =
+    baseOptions === Apollo.skipToken
+      ? baseOptions
+      : { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<GetBoardsQuery, GetBoardsQueryVariables>(
+    GetBoardsDocument,
+    options,
+  );
+}
+export type GetBoardsQueryHookResult = ReturnType<typeof useGetBoardsQuery>;
+export type GetBoardsLazyQueryHookResult = ReturnType<
+  typeof useGetBoardsLazyQuery
+>;
+export type GetBoardsSuspenseQueryHookResult = ReturnType<
+  typeof useGetBoardsSuspenseQuery
+>;
+export type GetBoardsQueryResult = Apollo.QueryResult<
+  GetBoardsQuery,
+  GetBoardsQueryVariables
+>;
+export const GetBoardDocument = gql`
+  query GetBoard($id: uuid!) {
+    boards_by_pk(id: $id) {
+      id
+      name
+      columns(order_by: { order: asc }) {
+        id
+        name
+        order
+        cards(order_by: { order: asc }) {
+          id
+          description
+          order
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetBoardQuery__
+ *
+ * To run a query within a React component, call `useGetBoardQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetBoardQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetBoardQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetBoardQuery(
+  baseOptions: Apollo.QueryHookOptions<GetBoardQuery, GetBoardQueryVariables> &
+    ({ variables: GetBoardQueryVariables; skip?: boolean } | { skip: boolean }),
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetBoardQuery, GetBoardQueryVariables>(
+    GetBoardDocument,
+    options,
+  );
+}
+export function useGetBoardLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetBoardQuery,
+    GetBoardQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetBoardQuery, GetBoardQueryVariables>(
+    GetBoardDocument,
+    options,
+  );
+}
+export function useGetBoardSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<GetBoardQuery, GetBoardQueryVariables>,
+) {
+  const options =
+    baseOptions === Apollo.skipToken
+      ? baseOptions
+      : { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<GetBoardQuery, GetBoardQueryVariables>(
+    GetBoardDocument,
+    options,
+  );
+}
+export type GetBoardQueryHookResult = ReturnType<typeof useGetBoardQuery>;
+export type GetBoardLazyQueryHookResult = ReturnType<
+  typeof useGetBoardLazyQuery
+>;
+export type GetBoardSuspenseQueryHookResult = ReturnType<
+  typeof useGetBoardSuspenseQuery
+>;
+export type GetBoardQueryResult = Apollo.QueryResult<
+  GetBoardQuery,
+  GetBoardQueryVariables
 >;

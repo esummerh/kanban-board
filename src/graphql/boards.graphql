@@ -4,3 +4,27 @@ query Boards {
     name
   }
 }
+
+query GetBoards {
+  boards(where: { user_id: { _eq: "X-Hasura-User-Id" } }) {
+    id
+    name
+  }
+}
+
+query GetBoard($id: uuid!) {
+  boards_by_pk(id: $id) {
+    id
+    name
+    columns(order_by: { order: asc }) {
+      id
+      name
+      order
+      cards(order_by: { order: asc }) {
+        id
+        description
+        order
+      }
+    }
+  }
+}
