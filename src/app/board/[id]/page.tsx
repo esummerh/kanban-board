@@ -4,6 +4,7 @@ import { useParams } from 'next/navigation'
 import { useGetBoardQuery } from '@/graphql/generated-boards'
 import nhostClient from '@/lib/nhost-client'
 import { ApolloProvider } from '@apollo/client'
+import { Sidebar } from '@/components/Sidebar'
 
 function BoardContent({ id }: { id: string }) {
     const { data, loading, error } = useGetBoardQuery({ variables: { id }, skip: !id, })
@@ -20,7 +21,7 @@ function BoardContent({ id }: { id: string }) {
         <div className="p-4">
             <h1 className="text-2xl font-bold mb-4">{board.name}</h1>
             <div className="flex gap-4">
-                {board.columns.map((column) => (
+                {board.columns?.map((column) => (
                     <div key={column.id} className="bg-gray-100 p-4 rounded shadow w-64">
                         <h2 className="font-semibold mb-2">{column.name}</h2>
                         {column.cards.map((card) => (
@@ -40,8 +41,13 @@ export default function BoardPage() {
     const id = params?.id as string
 
     return (
-        <ApolloProvider client={nhostClient}>
+      <ApolloProvider client={nhostClient}>
+        <div className="flex h-screen">
+          <Sidebar />
+          <div className="flex-1 overflow-auto">
             <BoardContent id={id} />
-        </ApolloProvider>
-    )
+          </div>
+        </div>
+      </ApolloProvider>
+    );
 }
