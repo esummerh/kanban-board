@@ -1,14 +1,21 @@
 'use client'
 
-import { ApolloProvider } from '@apollo/client'
-import nhostClient from '@/lib/nhost-client'
+//import { ApolloProvider } from '@apollo/client'
+//import nhostClient from '@/lib/nhost-client'
 import { useBoardsQuery } from '@/graphql/generated-boards'
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import { useUserId } from '@nhost/nextjs'
+import { useAuthenticationStatus, useUserData } from '@nhost/nextjs'
 
 function BoardsRedirector() {
     const { data, loading, error } = useBoardsQuery()
     const router = useRouter()
+
+    const { isAuthenticated, isLoading } = useAuthenticationStatus()
+    const user = useUserData()
+
+    console.log('Auth status:', { isAuthenticated, isLoading, user })
 
     useEffect(() => {
         if ((data?.boards ?? []).length > 0) {
@@ -16,6 +23,9 @@ function BoardsRedirector() {
             router.replace(`/board/${firstBoardId}`)
         }
     }, [data, router])
+
+    const userId = useUserId()
+    console.log('User ID:', userId)
 
     if (loading) return <p>Loading...</p>
     if (error) return <p>Error: {error.message}</p>
@@ -32,12 +42,10 @@ function BoardsRedirector() {
 
 export default function BoardsPage() {
     return (
-        <ApolloProvider client={nhostClient}>
             <main className="p-4">
                 <h1 className="text-2xl font-bold mb-4">Boards</h1>
                 <BoardsRedirector />
             </main>
-        </ApolloProvider>
     )
 }
 

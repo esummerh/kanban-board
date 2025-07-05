@@ -5,7 +5,7 @@ import { ApolloProvider } from "@apollo/client";
 import { nhost } from "@/lib/nhost";
 import { createApolloClient } from "@nhost/apollo";
 
-const apolloClient = createApolloClient({ nhost });
+const apolloClient = createApolloClient({ nhost })
 
 export default function ClientProviders({
   children,

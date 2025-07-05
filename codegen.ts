@@ -3,13 +3,7 @@ import type { CodegenConfig } from '@graphql-codegen/cli';
 const config: CodegenConfig = {
     generates: {
         'src/graphql/generated-boards.ts': {
-            schema: {
-                'http://localhost:1337/v1/graphql': {
-                    headers: {
-                        'x-hasura-admin-secret': 'nhost-admin-secret',
-                    },
-                },
-            },
+            schema: 'http://localhost:1337/v1/graphql',
             documents: ['src/graphql/boards.graphql'],
             plugins: [
                 'typescript',

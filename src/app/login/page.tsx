@@ -1,17 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { nhost } from "@/lib/nhost";
 import { useRouter } from "next/navigation";
-import { useUserData } from "@nhost/nextjs";
+import { useUserId } from '@nhost/nextjs'
 
 export default function LoginPage() {
     const router = useRouter();
-    const user = useUserData();
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [errorMsg, setErrorMsg] = useState("");
+    const [loggedIn, setLoggedIn] = useState(false);
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -25,14 +25,18 @@ export default function LoginPage() {
             setErrorMsg(result.error.message);
         } else {
             setErrorMsg("");
-            router.push("/boards");
+            setLoggedIn(true);
         }
     };
 
-    if (user) {
-        router.push("/boards");
-        return null;
-    }
+    const userId = useUserId()
+    console.log('UserId:', userId)
+
+    useEffect(() => {
+        if (loggedIn) {
+            router.push('/boards')
+        }
+    }, [loggedIn, router])
 
     return (
         <div style={{ padding: "2rem" }}>

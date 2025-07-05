@@ -2,8 +2,8 @@
 
 import { useParams } from 'next/navigation'
 import { useGetBoardQuery } from '@/graphql/generated-boards'
-import nhostClient from '@/lib/nhost-client'
-import { ApolloProvider } from '@apollo/client'
+//import nhostClient from '@/lib/nhost-client'
+//import { ApolloProvider } from '@apollo/client'
 import { Sidebar } from '@/components/Sidebar'
 
 function BoardContent({ id }: { id: string }) {
@@ -41,13 +41,13 @@ export default function BoardPage() {
     const id = params?.id as string
 
     return (
-      <ApolloProvider client={nhostClient}>
+      //<ApolloProvider client={nhostClient}>
         <div className="flex h-screen">
           <Sidebar />
           <div className="flex-1 overflow-auto">
             <BoardContent id={id} />
           </div>
         </div>
-      </ApolloProvider>
+      //</ApolloProvider>
     );
 }
