@@ -1120,6 +1120,20 @@ export type DeleteBoardMutation = {
   delete_boards_by_pk?: { __typename?: "boards"; id: string } | null;
 };
 
+export type UpdateColumnMutationVariables = Exact<{
+  id: Scalars["uuid"]["input"];
+  name: Scalars["String"]["input"];
+}>;
+
+export type UpdateColumnMutation = {
+  __typename?: "mutation_root";
+  update_columns_by_pk?: {
+    __typename?: "columns";
+    id: string;
+    name: string;
+  } | null;
+};
+
 export const BoardsDocument = gql`
   query Boards {
     boards {
@@ -1509,4 +1523,56 @@ export type DeleteBoardMutationResult =
 export type DeleteBoardMutationOptions = ApolloReactCommon.BaseMutationOptions<
   DeleteBoardMutation,
   DeleteBoardMutationVariables
+>;
+export const UpdateColumnDocument = gql`
+  mutation UpdateColumn($id: uuid!, $name: String!) {
+    update_columns_by_pk(pk_columns: { id: $id }, _set: { name: $name }) {
+      id
+      name
+    }
+  }
+`;
+export type UpdateColumnMutationFn = ApolloReactCommon.MutationFunction<
+  UpdateColumnMutation,
+  UpdateColumnMutationVariables
+>;
+
+/**
+ * __useUpdateColumnMutation__
+ *
+ * To run a mutation, you first call `useUpdateColumnMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateColumnMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateColumnMutation, { data, loading, error }] = useUpdateColumnMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      name: // value for 'name'
+ *   },
+ * });
+ */
+export function useUpdateColumnMutation(
+  baseOptions?: ApolloReactHooks.MutationHookOptions<
+    UpdateColumnMutation,
+    UpdateColumnMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useMutation<
+    UpdateColumnMutation,
+    UpdateColumnMutationVariables
+  >(UpdateColumnDocument, options);
+}
+export type UpdateColumnMutationHookResult = ReturnType<
+  typeof useUpdateColumnMutation
+>;
+export type UpdateColumnMutationResult =
+  ApolloReactCommon.MutationResult<UpdateColumnMutation>;
+export type UpdateColumnMutationOptions = ApolloReactCommon.BaseMutationOptions<
+  UpdateColumnMutation,
+  UpdateColumnMutationVariables
 >;

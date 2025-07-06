@@ -6,6 +6,7 @@ import { useGetBoardQuery } from '@/graphql/generated-boards'
 //import { ApolloProvider } from '@apollo/client'
 import { Sidebar } from '@/components/Sidebar'
 import { AddColumnButton } from '@/components/NewColumnButton'
+import { EditableColumnTitle } from '@/components/EditableColumnTitle'
 
 function BoardContent({ id }: { id: string }) {
     const { data, loading, error, refetch } = useGetBoardQuery({ variables: { id }, skip: !id, })
@@ -24,7 +25,7 @@ function BoardContent({ id }: { id: string }) {
             <div className="flex gap-4">
                 {board.columns?.map((column) => (
                     <div key={column.id} className="bg-gray-100 p-4 rounded shadow w-64">
-                        <h2 className="font-semibold mb-2">{column.name}</h2>
+                        <EditableColumnTitle columnId={column.id} initialName={column.name} />
                         {column.cards.map((card) => (
                             <div key={card.id} className="bg-white p-2 rounded shadow mb-2">
                                 {card.description}

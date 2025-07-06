@@ -47,3 +47,10 @@ mutation DeleteBoard($id: uuid!) {
     id
   }
 }
+
+mutation UpdateColumn($id: uuid!, $name: String!) {
+  update_columns_by_pk(pk_columns: { id: $id }, _set: { name: $name }) {
+    id
+    name
+  }
+}
