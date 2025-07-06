@@ -1,6 +1,6 @@
 'use client';
 
-import { useInsertBoardMutation, useBoardsQuery } from '@/graphql/generated-boards';
+import { useInsertBoardMutation, useBoardsQuery, useInsertColumnsMutation } from '@/graphql/generated-boards';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation'
 export default function NewBoardFunction() {
     const [boardName, setBoardName] = useState('');
     const [insertBoard, { loading, error }] = useInsertBoardMutation();
+    const [insertColumns] = useInsertColumnsMutation();
     const router = useRouter()
     const { refetch } = useBoardsQuery()
 
@@ -22,6 +23,15 @@ export default function NewBoardFunction() {
             const newBoardId = data?.insert_boards_one?.id
 
             if (newBoardId) {
+                await insertColumns({
+                    variables: {
+                        objects: [
+                            { name: 'To Do', order: 1, board_id: newBoardId },
+                            { name: 'In Progress', order: 2, board_id: newBoardId },
+                            { name: 'Done', order: 3, board_id: newBoardId }
+                        ]
+                    }
+                });
                 router.push(`/board/${newBoardId}`)
             }
         } catch (err) {

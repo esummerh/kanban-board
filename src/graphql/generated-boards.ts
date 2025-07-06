@@ -1099,6 +1099,18 @@ export type InsertBoardMutation = {
   } | null;
 };
 
+export type InsertColumnsMutationVariables = Exact<{
+  objects: Array<Columns_Insert_Input> | Columns_Insert_Input;
+}>;
+
+export type InsertColumnsMutation = {
+  __typename?: "mutation_root";
+  insert_columns?: {
+    __typename?: "columns_mutation_response";
+    affected_rows: number;
+  } | null;
+};
+
 export const BoardsDocument = gql`
   query Boards {
     boards {
@@ -1388,3 +1400,54 @@ export type InsertBoardMutationOptions = ApolloReactCommon.BaseMutationOptions<
   InsertBoardMutation,
   InsertBoardMutationVariables
 >;
+export const InsertColumnsDocument = gql`
+  mutation InsertColumns($objects: [columns_insert_input!]!) {
+    insert_columns(objects: $objects) {
+      affected_rows
+    }
+  }
+`;
+export type InsertColumnsMutationFn = ApolloReactCommon.MutationFunction<
+  InsertColumnsMutation,
+  InsertColumnsMutationVariables
+>;
+
+/**
+ * __useInsertColumnsMutation__
+ *
+ * To run a mutation, you first call `useInsertColumnsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useInsertColumnsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [insertColumnsMutation, { data, loading, error }] = useInsertColumnsMutation({
+ *   variables: {
+ *      objects: // value for 'objects'
+ *   },
+ * });
+ */
+export function useInsertColumnsMutation(
+  baseOptions?: ApolloReactHooks.MutationHookOptions<
+    InsertColumnsMutation,
+    InsertColumnsMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useMutation<
+    InsertColumnsMutation,
+    InsertColumnsMutationVariables
+  >(InsertColumnsDocument, options);
+}
+export type InsertColumnsMutationHookResult = ReturnType<
+  typeof useInsertColumnsMutation
+>;
+export type InsertColumnsMutationResult =
+  ApolloReactCommon.MutationResult<InsertColumnsMutation>;
+export type InsertColumnsMutationOptions =
+  ApolloReactCommon.BaseMutationOptions<
+    InsertColumnsMutation,
+    InsertColumnsMutationVariables
+  >;

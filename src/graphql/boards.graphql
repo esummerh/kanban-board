@@ -35,3 +35,9 @@ mutation InsertBoard($name: String!) {
     name
   }
 }
+
+mutation InsertColumns($objects: [columns_insert_input!]!) {
+  insert_columns(objects: $objects) {
+    affected_rows
+  }
+}
