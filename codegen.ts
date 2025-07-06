@@ -19,6 +19,8 @@ const config: CodegenConfig = {
                     timestamptz: 'string',
                     uuid: 'string',
                 },
+                apolloReactHooksImportFrom: '@apollo/client',
+                apolloReactCommonImportFrom: '@apollo/client',
             },
         },
         'src/graphql/generated-countries.ts': {

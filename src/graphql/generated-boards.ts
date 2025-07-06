@@ -1,5 +1,6 @@
 import { gql } from "@apollo/client";
-import * as Apollo from "@apollo/client";
+import * as ApolloReactCommon from "@apollo/client";
+import * as ApolloReactHooks from "@apollo/client";
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = {
@@ -1110,33 +1111,42 @@ export const BoardsDocument = gql`
  * });
  */
 export function useBoardsQuery(
-  baseOptions?: Apollo.QueryHookOptions<BoardsQuery, BoardsQueryVariables>,
+  baseOptions?: ApolloReactHooks.QueryHookOptions<
+    BoardsQuery,
+    BoardsQueryVariables
+  >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<BoardsQuery, BoardsQueryVariables>(
+  return ApolloReactHooks.useQuery<BoardsQuery, BoardsQueryVariables>(
     BoardsDocument,
     options,
   );
 }
 export function useBoardsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<BoardsQuery, BoardsQueryVariables>,
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    BoardsQuery,
+    BoardsQueryVariables
+  >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<BoardsQuery, BoardsQueryVariables>(
+  return ApolloReactHooks.useLazyQuery<BoardsQuery, BoardsQueryVariables>(
     BoardsDocument,
     options,
   );
 }
 export function useBoardsSuspenseQuery(
   baseOptions?:
-    | Apollo.SkipToken
-    | Apollo.SuspenseQueryHookOptions<BoardsQuery, BoardsQueryVariables>,
+    | ApolloReactHooks.SkipToken
+    | ApolloReactHooks.SuspenseQueryHookOptions<
+        BoardsQuery,
+        BoardsQueryVariables
+      >,
 ) {
   const options =
-    baseOptions === Apollo.skipToken
+    baseOptions === ApolloReactHooks.skipToken
       ? baseOptions
       : { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<BoardsQuery, BoardsQueryVariables>(
+  return ApolloReactHooks.useSuspenseQuery<BoardsQuery, BoardsQueryVariables>(
     BoardsDocument,
     options,
   );
@@ -1146,7 +1156,7 @@ export type BoardsLazyQueryHookResult = ReturnType<typeof useBoardsLazyQuery>;
 export type BoardsSuspenseQueryHookResult = ReturnType<
   typeof useBoardsSuspenseQuery
 >;
-export type BoardsQueryResult = Apollo.QueryResult<
+export type BoardsQueryResult = ApolloReactCommon.QueryResult<
   BoardsQuery,
   BoardsQueryVariables
 >;
@@ -1175,42 +1185,45 @@ export const GetBoardsDocument = gql`
  * });
  */
 export function useGetBoardsQuery(
-  baseOptions?: Apollo.QueryHookOptions<
+  baseOptions?: ApolloReactHooks.QueryHookOptions<
     GetBoardsQuery,
     GetBoardsQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetBoardsQuery, GetBoardsQueryVariables>(
+  return ApolloReactHooks.useQuery<GetBoardsQuery, GetBoardsQueryVariables>(
     GetBoardsDocument,
     options,
   );
 }
 export function useGetBoardsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
     GetBoardsQuery,
     GetBoardsQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetBoardsQuery, GetBoardsQueryVariables>(
+  return ApolloReactHooks.useLazyQuery<GetBoardsQuery, GetBoardsQueryVariables>(
     GetBoardsDocument,
     options,
   );
 }
 export function useGetBoardsSuspenseQuery(
   baseOptions?:
-    | Apollo.SkipToken
-    | Apollo.SuspenseQueryHookOptions<GetBoardsQuery, GetBoardsQueryVariables>,
+    | ApolloReactHooks.SkipToken
+    | ApolloReactHooks.SuspenseQueryHookOptions<
+        GetBoardsQuery,
+        GetBoardsQueryVariables
+      >,
 ) {
   const options =
-    baseOptions === Apollo.skipToken
+    baseOptions === ApolloReactHooks.skipToken
       ? baseOptions
       : { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<GetBoardsQuery, GetBoardsQueryVariables>(
-    GetBoardsDocument,
-    options,
-  );
+  return ApolloReactHooks.useSuspenseQuery<
+    GetBoardsQuery,
+    GetBoardsQueryVariables
+  >(GetBoardsDocument, options);
 }
 export type GetBoardsQueryHookResult = ReturnType<typeof useGetBoardsQuery>;
 export type GetBoardsLazyQueryHookResult = ReturnType<
@@ -1219,7 +1232,7 @@ export type GetBoardsLazyQueryHookResult = ReturnType<
 export type GetBoardsSuspenseQueryHookResult = ReturnType<
   typeof useGetBoardsSuspenseQuery
 >;
-export type GetBoardsQueryResult = Apollo.QueryResult<
+export type GetBoardsQueryResult = ApolloReactCommon.QueryResult<
   GetBoardsQuery,
   GetBoardsQueryVariables
 >;
@@ -1259,40 +1272,46 @@ export const GetBoardDocument = gql`
  * });
  */
 export function useGetBoardQuery(
-  baseOptions: Apollo.QueryHookOptions<GetBoardQuery, GetBoardQueryVariables> &
+  baseOptions: ApolloReactHooks.QueryHookOptions<
+    GetBoardQuery,
+    GetBoardQueryVariables
+  > &
     ({ variables: GetBoardQueryVariables; skip?: boolean } | { skip: boolean }),
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetBoardQuery, GetBoardQueryVariables>(
+  return ApolloReactHooks.useQuery<GetBoardQuery, GetBoardQueryVariables>(
     GetBoardDocument,
     options,
   );
 }
 export function useGetBoardLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
     GetBoardQuery,
     GetBoardQueryVariables
   >,
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetBoardQuery, GetBoardQueryVariables>(
+  return ApolloReactHooks.useLazyQuery<GetBoardQuery, GetBoardQueryVariables>(
     GetBoardDocument,
     options,
   );
 }
 export function useGetBoardSuspenseQuery(
   baseOptions?:
-    | Apollo.SkipToken
-    | Apollo.SuspenseQueryHookOptions<GetBoardQuery, GetBoardQueryVariables>,
+    | ApolloReactHooks.SkipToken
+    | ApolloReactHooks.SuspenseQueryHookOptions<
+        GetBoardQuery,
+        GetBoardQueryVariables
+      >,
 ) {
   const options =
-    baseOptions === Apollo.skipToken
+    baseOptions === ApolloReactHooks.skipToken
       ? baseOptions
       : { ...defaultOptions, ...baseOptions };
-  return Apollo.useSuspenseQuery<GetBoardQuery, GetBoardQueryVariables>(
-    GetBoardDocument,
-    options,
-  );
+  return ApolloReactHooks.useSuspenseQuery<
+    GetBoardQuery,
+    GetBoardQueryVariables
+  >(GetBoardDocument, options);
 }
 export type GetBoardQueryHookResult = ReturnType<typeof useGetBoardQuery>;
 export type GetBoardLazyQueryHookResult = ReturnType<
@@ -1301,7 +1320,7 @@ export type GetBoardLazyQueryHookResult = ReturnType<
 export type GetBoardSuspenseQueryHookResult = ReturnType<
   typeof useGetBoardSuspenseQuery
 >;
-export type GetBoardQueryResult = Apollo.QueryResult<
+export type GetBoardQueryResult = ApolloReactCommon.QueryResult<
   GetBoardQuery,
   GetBoardQueryVariables
 >;
