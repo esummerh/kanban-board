@@ -41,3 +41,9 @@ mutation InsertColumns($objects: [columns_insert_input!]!) {
     affected_rows
   }
 }
+
+mutation DeleteBoard($id: uuid!) {
+  delete_boards_by_pk(id: $id) {
+    id
+  }
+}

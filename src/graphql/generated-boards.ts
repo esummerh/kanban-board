@@ -1111,6 +1111,15 @@ export type InsertColumnsMutation = {
   } | null;
 };
 
+export type DeleteBoardMutationVariables = Exact<{
+  id: Scalars["uuid"]["input"];
+}>;
+
+export type DeleteBoardMutation = {
+  __typename?: "mutation_root";
+  delete_boards_by_pk?: { __typename?: "boards"; id: string } | null;
+};
+
 export const BoardsDocument = gql`
   query Boards {
     boards {
@@ -1451,3 +1460,53 @@ export type InsertColumnsMutationOptions =
     InsertColumnsMutation,
     InsertColumnsMutationVariables
   >;
+export const DeleteBoardDocument = gql`
+  mutation DeleteBoard($id: uuid!) {
+    delete_boards_by_pk(id: $id) {
+      id
+    }
+  }
+`;
+export type DeleteBoardMutationFn = ApolloReactCommon.MutationFunction<
+  DeleteBoardMutation,
+  DeleteBoardMutationVariables
+>;
+
+/**
+ * __useDeleteBoardMutation__
+ *
+ * To run a mutation, you first call `useDeleteBoardMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteBoardMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteBoardMutation, { data, loading, error }] = useDeleteBoardMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteBoardMutation(
+  baseOptions?: ApolloReactHooks.MutationHookOptions<
+    DeleteBoardMutation,
+    DeleteBoardMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useMutation<
+    DeleteBoardMutation,
+    DeleteBoardMutationVariables
+  >(DeleteBoardDocument, options);
+}
+export type DeleteBoardMutationHookResult = ReturnType<
+  typeof useDeleteBoardMutation
+>;
+export type DeleteBoardMutationResult =
+  ApolloReactCommon.MutationResult<DeleteBoardMutation>;
+export type DeleteBoardMutationOptions = ApolloReactCommon.BaseMutationOptions<
+  DeleteBoardMutation,
+  DeleteBoardMutationVariables
+>;
