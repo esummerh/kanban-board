@@ -1,12 +1,11 @@
 'use client'
 
-//import { ApolloProvider } from '@apollo/client'
-//import nhostClient from '@/lib/nhost-client'
 import { useBoardsQuery } from '@/graphql/generated-boards'
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useUserId } from '@nhost/nextjs'
 import { useAuthenticationStatus, useUserData } from '@nhost/nextjs'
+import NewBoardFunction from '@/components/NewBoardButton'
 
 function BoardsRedirector() {
     const { data, loading, error } = useBoardsQuery()
@@ -44,6 +43,7 @@ export default function BoardsPage() {
     return (
             <main className="p-4">
                 <h1 className="text-2xl font-bold mb-4">Boards</h1>
+                <NewBoardFunction />
                 <BoardsRedirector />
             </main>
     )

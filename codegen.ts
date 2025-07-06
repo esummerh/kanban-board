@@ -19,6 +19,8 @@ const config: CodegenConfig = {
                     timestamptz: 'string',
                     uuid: 'string',
                 },
+                useTypeImports: true,
+                omitInputFieldsByDefault: true,
                 apolloReactHooksImportFrom: '@apollo/client',
                 apolloReactCommonImportFrom: '@apollo/client',
             },
