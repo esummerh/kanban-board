@@ -5,9 +5,10 @@ import { useGetBoardQuery } from '@/graphql/generated-boards'
 //import nhostClient from '@/lib/nhost-client'
 //import { ApolloProvider } from '@apollo/client'
 import { Sidebar } from '@/components/Sidebar'
+import { AddColumnButton } from '@/components/NewColumnButton'
 
 function BoardContent({ id }: { id: string }) {
-    const { data, loading, error } = useGetBoardQuery({ variables: { id }, skip: !id, })
+    const { data, loading, error, refetch } = useGetBoardQuery({ variables: { id }, skip: !id, })
     console.log(data?.boards_by_pk?.columns)
 
     if (loading) return <p>Loading...</p>
@@ -31,6 +32,9 @@ function BoardContent({ id }: { id: string }) {
                         ))}
                     </div>
                 ))}
+                <div className="bg-white p-4 rounded shadow w-64 flex flex-col items-start justify-start border border-gray-300">
+                    <AddColumnButton boardId={id} existingColumnCount={board.columns.length} onColumnAdded={refetch}/>
+                </div>
             </div>
         </div>
     )
