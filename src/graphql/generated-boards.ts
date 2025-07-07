@@ -1160,6 +1160,15 @@ export type DeleteCardMutation = {
   delete_cards_by_pk?: { __typename?: "cards"; id: string } | null;
 };
 
+export type DeleteColumnMutationVariables = Exact<{
+  id: Scalars["uuid"]["input"];
+}>;
+
+export type DeleteColumnMutation = {
+  __typename?: "mutation_root";
+  delete_columns_by_pk?: { __typename?: "columns"; id: string } | null;
+};
+
 export const BoardsDocument = gql`
   query Boards {
     boards {
@@ -1716,4 +1725,54 @@ export type DeleteCardMutationResult =
 export type DeleteCardMutationOptions = ApolloReactCommon.BaseMutationOptions<
   DeleteCardMutation,
   DeleteCardMutationVariables
+>;
+export const DeleteColumnDocument = gql`
+  mutation DeleteColumn($id: uuid!) {
+    delete_columns_by_pk(id: $id) {
+      id
+    }
+  }
+`;
+export type DeleteColumnMutationFn = ApolloReactCommon.MutationFunction<
+  DeleteColumnMutation,
+  DeleteColumnMutationVariables
+>;
+
+/**
+ * __useDeleteColumnMutation__
+ *
+ * To run a mutation, you first call `useDeleteColumnMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteColumnMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteColumnMutation, { data, loading, error }] = useDeleteColumnMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteColumnMutation(
+  baseOptions?: ApolloReactHooks.MutationHookOptions<
+    DeleteColumnMutation,
+    DeleteColumnMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useMutation<
+    DeleteColumnMutation,
+    DeleteColumnMutationVariables
+  >(DeleteColumnDocument, options);
+}
+export type DeleteColumnMutationHookResult = ReturnType<
+  typeof useDeleteColumnMutation
+>;
+export type DeleteColumnMutationResult =
+  ApolloReactCommon.MutationResult<DeleteColumnMutation>;
+export type DeleteColumnMutationOptions = ApolloReactCommon.BaseMutationOptions<
+  DeleteColumnMutation,
+  DeleteColumnMutationVariables
 >;

@@ -71,3 +71,9 @@ mutation DeleteCard($id: uuid!) {
     id
   }
 }
+
+mutation DeleteColumn($id: uuid!) {
+  delete_columns_by_pk(id: $id) {
+    id
+  }
+}

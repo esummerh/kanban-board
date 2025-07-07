@@ -9,6 +9,7 @@ import { AddColumnButton } from '@/components/NewColumnButton'
 import { EditableColumnTitle } from '@/components/EditableColumnTitle'
 import { AddCardButton } from '@/components/AddCardButton'
 import { DeleteCardButton } from '@/components/DeleteCardButton'
+import { DeleteColumnButton } from '@/components/DeleteColumnButton'
 
 function BoardContent({ id }: { id: string }) {
     const { data, loading, error, refetch } = useGetBoardQuery({ variables: { id }, skip: !id, })
@@ -27,7 +28,10 @@ function BoardContent({ id }: { id: string }) {
             <div className="flex gap-4">
                 {board.columns?.map((column) => (
                     <div key={column.id} className="bg-gray-100 p-4 rounded shadow w-64">
-                        <EditableColumnTitle columnId={column.id} initialName={column.name} />
+                        <div className="flex justify-between items-center mb-2">
+                            <EditableColumnTitle columnId={column.id} initialName={column.name} />
+                            <DeleteColumnButton columnId={column.id} onColumnDeleted={refetch} />
+                        </div>
                         {column.cards.map((card) => (
                             <div key={card.id} className="bg-white p-2 rounded shadow mb-2">
                                 <div>
