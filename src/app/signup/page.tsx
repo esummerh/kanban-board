@@ -5,6 +5,7 @@ import { nhost } from '@/lib/nhost'
 import { useRouter } from 'next/navigation'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import Link from 'next/link'
 
 export default function SignupPage() {
     const [email, setEmail] = useState('')
@@ -47,6 +48,10 @@ export default function SignupPage() {
                     {error && <p className="text-sm text-red-600 text-center">{error}</p>}
                     {success && <p className="text-sm text-green-600 text-center">Success! You can now log in.</p>}
                 </form>
+                <p className="mt-4 text-sm text-center">
+                    Already have an account?{' '}
+                    <Link href="/login" className="text-blue-600 underline hover:text-blue-800">Log in</Link>
+                </p>
             </div>
         </div>
     )

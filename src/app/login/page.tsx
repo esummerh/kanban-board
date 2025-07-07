@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation"
 import { useUserId } from '@nhost/nextjs'
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
+import Link from 'next/link'
 
 export default function LoginPage() {
     const router = useRouter();
@@ -50,6 +51,10 @@ export default function LoginPage() {
                     <Button type="submit" className="w-full">Log In</Button>
                     {errorMsg && <p className="text-sm text-red-600 text-center">{errorMsg}</p>}
                 </form>
+                <p className="mt-4 text-sm text-center">
+                    Don&rsquo;t have an account?{' '}
+                    <Link href="/signup" className="text-blue-600 underline hover:text-blue-800">Sign up</Link>
+                </p>
             </div>
         </div>
     )
