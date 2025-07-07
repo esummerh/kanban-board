@@ -10,6 +10,7 @@ import { EditableColumnTitle } from '@/components/EditableColumnTitle'
 import { AddCardButton } from '@/components/AddCardButton'
 import { DeleteCardButton } from '@/components/DeleteCardButton'
 import { DeleteColumnButton } from '@/components/DeleteColumnButton'
+import { ProtectedRoute } from '@/components/ProtectedRoute'
 
 function BoardContent({ id }: { id: string }) {
     const { data, loading, error, refetch } = useGetBoardQuery({ variables: { id }, skip: !id, })
@@ -57,13 +58,13 @@ export default function BoardPage() {
     const id = params?.id as string
 
     return (
-      //<ApolloProvider client={nhostClient}>
+      <ProtectedRoute>
         <div className="flex h-screen">
           <Sidebar />
           <div className="flex-1 overflow-auto">
             <BoardContent id={id} />
           </div>
         </div>
-      //</ApolloProvider>
+      </ProtectedRoute>
     );
 }

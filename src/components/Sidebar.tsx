@@ -5,6 +5,7 @@ import { useBoardsQuery, useDeleteBoardMutation } from "@/graphql/generated-boar
 import NewBoardFunction from "@/components/NewBoardButton"
 import { Button } from '@/components/ui/button'
 import { useRouter, useParams } from 'next/navigation'
+import { LogoutButton } from '@/components/LogoutButton'
 
 export const Sidebar = () => {
     const { data, loading, error, refetch } = useBoardsQuery()
@@ -37,7 +38,7 @@ export const Sidebar = () => {
     if (error) return <div className="w-64 p-4 bg-gray-100">Error loading boards</div>
 
     return (
-        <div className="w-64 bg-gray-100 p-4 border-r h-full">
+        <div className="w-64 bg-gray-100 p-4 border-r h-full flex flex-col justify-between">
             <div>
                 <h2 className="text-lg font-semibold mb-4">Boards</h2>
                 <ul className="space-y-2">
@@ -60,6 +61,7 @@ export const Sidebar = () => {
             <div className="mt-auto">
                 <NewBoardFunction />
             </div>
+            <LogoutButton />
         </div>
     )
 }

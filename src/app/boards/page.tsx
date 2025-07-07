@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import { useUserId } from '@nhost/nextjs'
 import { useAuthenticationStatus, useUserData } from '@nhost/nextjs'
 import NewBoardFunction from '@/components/NewBoardButton'
+import { ProtectedRoute } from '@/components/ProtectedRoute'
 
 function BoardsRedirector() {
     const { data, loading, error } = useBoardsQuery()
@@ -41,11 +42,13 @@ function BoardsRedirector() {
 
 export default function BoardsPage() {
     return (
+        <ProtectedRoute>
             <main className="p-4">
                 <h1 className="text-2xl font-bold mb-4">Boards</h1>
                 <NewBoardFunction />
                 <BoardsRedirector />
             </main>
+        </ProtectedRoute>
     )
 }
 
