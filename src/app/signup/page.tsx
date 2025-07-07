@@ -3,6 +3,8 @@
 import { useState } from 'react'
 import { nhost } from '@/lib/nhost'
 import { useRouter } from 'next/navigation'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
 
 export default function SignupPage() {
     const [email, setEmail] = useState('')
@@ -22,7 +24,9 @@ export default function SignupPage() {
 
         if (error) {
             setError(error.message)
+            setSuccess(false)
         } else {
+            setError('')
             setSuccess(true)
             const user = await nhost.auth.getUser()
             console.log('Signed up:', user)
@@ -31,17 +35,19 @@ export default function SignupPage() {
     }
 
     return (
-        <div className="p-4 max-w-md mx-auto">
-            <h1 className="text-xl font-bold mb-4">Sign Up</h1>
-            <form onSubmit={handleSignUp} className="flex flex-col gap-4">
-                <input className="border p-2" type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)}/>
-                <input className="border p-2" type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)}/>
-                <button type="submit" className="bg-blue-600 text-white p-2 rounded">
-                    Sign Up
-                </button>
-                {error && <p className="text-red-600">{error}</p>}
-                {success && <p className="text-green-600">Success! You can now log in.</p>}
-            </form>
+        <div className="flex justify-center items-center min-h-screen bg-gray-50 px-4">
+            <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-xl">
+                <h1 className="text-xl font-bold mb-6 test-center">Create your account</h1>
+                <form onSubmit={handleSignUp} className="flex flex-col gap-4">
+                    <Input type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} required />
+                    <Input type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} required />
+                    <Button type="submit" className="w-full">
+                        Sign Up
+                    </Button>
+                    {error && <p className="text-sm text-red-600 text-center">{error}</p>}
+                    {success && <p className="text-sm text-green-600 text-center">Success! You can now log in.</p>}
+                </form>
+            </div>
         </div>
     )
 }
