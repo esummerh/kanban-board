@@ -8,6 +8,7 @@ import { Sidebar } from '@/components/Sidebar'
 import { AddColumnButton } from '@/components/NewColumnButton'
 import { EditableColumnTitle } from '@/components/EditableColumnTitle'
 import { AddCardButton } from '@/components/AddCardButton'
+import { DeleteCardButton } from '@/components/DeleteCardButton'
 
 function BoardContent({ id }: { id: string }) {
     const { data, loading, error, refetch } = useGetBoardQuery({ variables: { id }, skip: !id, })
@@ -29,8 +30,11 @@ function BoardContent({ id }: { id: string }) {
                         <EditableColumnTitle columnId={column.id} initialName={column.name} />
                         {column.cards.map((card) => (
                             <div key={card.id} className="bg-white p-2 rounded shadow mb-2">
-                                <h3 className="font-semibold">{card.title}</h3>
-                                <p className="text-sm text-gray-600">{card.description}</p>
+                                <div>
+                                    <h3 className="font-semibold">{card.title}</h3>
+                                    <p className="text-sm text-gray-600">{card.description}</p>
+                                </div>
+                                <DeleteCardButton cardId={card.id} onCardDeleted={refetch} />
                             </div>
                         ))}
                         <AddCardButton columnId={column.id} onCardAdded={refetch} />

@@ -1151,6 +1151,15 @@ export type InsertCardMutation = {
   } | null;
 };
 
+export type DeleteCardMutationVariables = Exact<{
+  id: Scalars["uuid"]["input"];
+}>;
+
+export type DeleteCardMutation = {
+  __typename?: "mutation_root";
+  delete_cards_by_pk?: { __typename?: "cards"; id: string } | null;
+};
+
 export const BoardsDocument = gql`
   query Boards {
     boards {
@@ -1657,4 +1666,54 @@ export type InsertCardMutationResult =
 export type InsertCardMutationOptions = ApolloReactCommon.BaseMutationOptions<
   InsertCardMutation,
   InsertCardMutationVariables
+>;
+export const DeleteCardDocument = gql`
+  mutation DeleteCard($id: uuid!) {
+    delete_cards_by_pk(id: $id) {
+      id
+    }
+  }
+`;
+export type DeleteCardMutationFn = ApolloReactCommon.MutationFunction<
+  DeleteCardMutation,
+  DeleteCardMutationVariables
+>;
+
+/**
+ * __useDeleteCardMutation__
+ *
+ * To run a mutation, you first call `useDeleteCardMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteCardMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteCardMutation, { data, loading, error }] = useDeleteCardMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteCardMutation(
+  baseOptions?: ApolloReactHooks.MutationHookOptions<
+    DeleteCardMutation,
+    DeleteCardMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useMutation<
+    DeleteCardMutation,
+    DeleteCardMutationVariables
+  >(DeleteCardDocument, options);
+}
+export type DeleteCardMutationHookResult = ReturnType<
+  typeof useDeleteCardMutation
+>;
+export type DeleteCardMutationResult =
+  ApolloReactCommon.MutationResult<DeleteCardMutation>;
+export type DeleteCardMutationOptions = ApolloReactCommon.BaseMutationOptions<
+  DeleteCardMutation,
+  DeleteCardMutationVariables
 >;

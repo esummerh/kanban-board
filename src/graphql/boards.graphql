@@ -65,3 +65,9 @@ mutation InsertCard($column_id: uuid!, $title: String!, $description: String!) {
     description
   }
 }
+
+mutation DeleteCard($id: uuid!) {
+  delete_cards_by_pk(id: $id) {
+    id
+  }
+}
