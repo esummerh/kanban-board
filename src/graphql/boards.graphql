@@ -22,6 +22,7 @@ query GetBoard($id: uuid!) {
       order
       cards(order_by: { order: asc }) {
         id
+        title
         description
         order
       }
@@ -52,5 +53,15 @@ mutation UpdateColumn($id: uuid!, $name: String!) {
   update_columns_by_pk(pk_columns: { id: $id }, _set: { name: $name }) {
     id
     name
+  }
+}
+
+mutation InsertCard($column_id: uuid!, $title: String!, $description: String!) {
+  insert_cards_one(
+    object: { column_id: $column_id, title: $title, description: $description }
+  ) {
+    id
+    title
+    description
   }
 }

@@ -1079,6 +1079,7 @@ export type GetBoardQuery = {
       cards: Array<{
         __typename?: "cards";
         id: string;
+        title: string;
         description?: string | null;
         order?: number | null;
       }>;
@@ -1131,6 +1132,22 @@ export type UpdateColumnMutation = {
     __typename?: "columns";
     id: string;
     name: string;
+  } | null;
+};
+
+export type InsertCardMutationVariables = Exact<{
+  column_id: Scalars["uuid"]["input"];
+  title: Scalars["String"]["input"];
+  description: Scalars["String"]["input"];
+}>;
+
+export type InsertCardMutation = {
+  __typename?: "mutation_root";
+  insert_cards_one?: {
+    __typename?: "cards";
+    id: string;
+    title: string;
+    description?: string | null;
   } | null;
 };
 
@@ -1295,6 +1312,7 @@ export const GetBoardDocument = gql`
         order
         cards(order_by: { order: asc }) {
           id
+          title
           description
           order
         }
@@ -1575,4 +1593,68 @@ export type UpdateColumnMutationResult =
 export type UpdateColumnMutationOptions = ApolloReactCommon.BaseMutationOptions<
   UpdateColumnMutation,
   UpdateColumnMutationVariables
+>;
+export const InsertCardDocument = gql`
+  mutation InsertCard(
+    $column_id: uuid!
+    $title: String!
+    $description: String!
+  ) {
+    insert_cards_one(
+      object: {
+        column_id: $column_id
+        title: $title
+        description: $description
+      }
+    ) {
+      id
+      title
+      description
+    }
+  }
+`;
+export type InsertCardMutationFn = ApolloReactCommon.MutationFunction<
+  InsertCardMutation,
+  InsertCardMutationVariables
+>;
+
+/**
+ * __useInsertCardMutation__
+ *
+ * To run a mutation, you first call `useInsertCardMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useInsertCardMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [insertCardMutation, { data, loading, error }] = useInsertCardMutation({
+ *   variables: {
+ *      column_id: // value for 'column_id'
+ *      title: // value for 'title'
+ *      description: // value for 'description'
+ *   },
+ * });
+ */
+export function useInsertCardMutation(
+  baseOptions?: ApolloReactHooks.MutationHookOptions<
+    InsertCardMutation,
+    InsertCardMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useMutation<
+    InsertCardMutation,
+    InsertCardMutationVariables
+  >(InsertCardDocument, options);
+}
+export type InsertCardMutationHookResult = ReturnType<
+  typeof useInsertCardMutation
+>;
+export type InsertCardMutationResult =
+  ApolloReactCommon.MutationResult<InsertCardMutation>;
+export type InsertCardMutationOptions = ApolloReactCommon.BaseMutationOptions<
+  InsertCardMutation,
+  InsertCardMutationVariables
 >;

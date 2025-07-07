@@ -7,6 +7,7 @@ import { useGetBoardQuery } from '@/graphql/generated-boards'
 import { Sidebar } from '@/components/Sidebar'
 import { AddColumnButton } from '@/components/NewColumnButton'
 import { EditableColumnTitle } from '@/components/EditableColumnTitle'
+import { AddCardButton } from '@/components/AddCardButton'
 
 function BoardContent({ id }: { id: string }) {
     const { data, loading, error, refetch } = useGetBoardQuery({ variables: { id }, skip: !id, })
@@ -28,9 +29,11 @@ function BoardContent({ id }: { id: string }) {
                         <EditableColumnTitle columnId={column.id} initialName={column.name} />
                         {column.cards.map((card) => (
                             <div key={card.id} className="bg-white p-2 rounded shadow mb-2">
-                                {card.description}
+                                <h3 className="font-semibold">{card.title}</h3>
+                                <p className="text-sm text-gray-600">{card.description}</p>
                             </div>
                         ))}
+                        <AddCardButton columnId={column.id} onCardAdded={refetch} />
                     </div>
                 ))}
                 <div className="bg-white p-4 rounded shadow w-64 flex flex-col items-start justify-start border border-gray-300">
