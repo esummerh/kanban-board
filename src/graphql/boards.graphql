@@ -95,3 +95,21 @@ mutation UpdateCardOrder($id: uuid!, $order: Int!, $column_id: uuid) {
     column_id
   }
 }
+
+subscription OnBoardUpdated($boardId: uuid!) {
+  boards_by_pk(id: $boardId) {
+    id
+    name
+    columns(order_by: { order: asc }) {
+      id
+      name
+      order
+      cards(order_by: { order: asc }) {
+        id
+        title
+        description
+        order
+      }
+    }
+  }
+}

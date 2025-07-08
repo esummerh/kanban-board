@@ -5,7 +5,7 @@ import { useDeleteColumnMutation } from '@/graphql/generated-boards'
 
 interface DeleteColumnButtonProps {
     columnId: string
-    onColumnDeleted: () => void
+    onColumnDeleted?: () => void
 }
 
 export const DeleteColumnButton = ({ columnId, onColumnDeleted }: DeleteColumnButtonProps) => {
@@ -14,7 +14,9 @@ export const DeleteColumnButton = ({ columnId, onColumnDeleted }: DeleteColumnBu
     const handleDelete = async () => {
         try {
             await deleteColumn({ variables: { id: columnId } })
-            onColumnDeleted()
+            if(onColumnDeleted) {
+                onColumnDeleted()
+            }
         } catch (err) {
             console.error('Failed to delete column:', err)
         }

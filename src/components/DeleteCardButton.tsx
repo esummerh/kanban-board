@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button'
 
 interface DeleteCardButtonProps {
     cardId: string
-    onCardDeleted: () => void
+    onCardDeleted?: () => void
 }
 
 export const DeleteCardButton = ({ cardId, onCardDeleted }: DeleteCardButtonProps) => {
@@ -14,7 +14,9 @@ export const DeleteCardButton = ({ cardId, onCardDeleted }: DeleteCardButtonProp
     const handleDelete = async () => {
         try {
             await deleteCard({ variables: { id: cardId } })
-            onCardDeleted()
+            if(onCardDeleted) {
+                onCardDeleted()
+            }
         } catch (error) {
             console.error('Failed to delete card:', error)
         }

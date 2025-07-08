@@ -1,7 +1,7 @@
 'use client'
 
 import { useParams } from 'next/navigation'
-import { useGetBoardQuery } from '@/graphql/generated-boards'
+//import { useGetBoardQuery } from '@/graphql/generated-boards'
 //import nhostClient from '@/lib/nhost-client'
 //import { ApolloProvider } from '@apollo/client'
 import { Sidebar } from '@/components/Sidebar'
@@ -13,7 +13,7 @@ import { DeleteColumnButton } from '@/components/DeleteColumnButton'
 import { ProtectedRoute } from '@/components/ProtectedRoute'
 import { useState, useEffect } from 'react'
 import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd'
-import { useUpdateColumnOrderMutation, useUpdateCardOrderMutation } from '@/graphql/generated-boards'
+import { useUpdateColumnOrderMutation, useUpdateCardOrderMutation, useOnBoardUpdatedSubscription } from '@/graphql/generated-boards'
 
 type CardType = {
     id: string
@@ -30,7 +30,7 @@ type ColumnType = {
 }
 
 function BoardContent({ id }: { id: string }) {
-    const { data, loading, error, refetch } = useGetBoardQuery({ variables: { id }, skip: !id, })
+    const { data, loading, error} = useOnBoardUpdatedSubscription({ variables: { boardId: id } });
     console.log(data?.boards_by_pk?.columns)
 
     const [columns, setColumns] = useState<ColumnType[]>([])
@@ -40,25 +40,35 @@ function BoardContent({ id }: { id: string }) {
     const board = data?.boards_by_pk
 
     useEffect(() => {
-        if (board?.columns && columns.length === 0) {
-            const sorted = [...board.columns]
-                .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
-                .map((col) => ({
-                    id: col.id,
-                    name: col.name,
-                    order: col.order,
-                    cards: [...col.cards]
-                        .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
-                        .map((card) => ({
-                            id: card.id,
-                            title: card.title,
-                            description: card.description,
-                            order: card.order ?? 0,
-                        })),
-                }))
-            setColumns(sorted);
+        if (!board?.columns) return;
+
+        const newColumns = board.columns
+            .slice()
+            .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+            .map((col) => ({
+                id: col.id,
+                name: col.name,
+                order: col.order,
+                cards: col.cards
+                    .slice()
+                    .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+                    .map((card) => ({
+                        id: card.id,
+                        title: card.title,
+                        description: card.description,
+                        order: card.order ?? 0,
+                })),
+        }));
+
+        // Only update state if the new data is different from current state
+        const serializedNew = JSON.stringify(newColumns);
+        const serializedCurrent = JSON.stringify(columns);
+        if (serializedNew !== serializedCurrent) {
+            setColumns(newColumns);
         }
-    }, [board, columns.length])
+
+    }, [board]);
+
 
     if (loading) return <p>Loading...</p>;
     if (data) console.log("Board data:", data);
@@ -154,7 +164,7 @@ function BoardContent({ id }: { id: string }) {
                                         <div className="bg-gray-100 p-4 rounded shadow w-64" ref={provided.innerRef} {...provided.draggableProps}>
                                             <div {...provided.dragHandleProps} className="flex justify-between items-center mb-2">
                                                 <EditableColumnTitle columnId={column.id} initialName={column.name}/>
-                                                <DeleteColumnButton columnId={column.id} onColumnDeleted={refetch}/>
+                                                <DeleteColumnButton columnId={column.id}/>
                                             </div>
                                             <Droppable droppableId={column.id} type="card">
                                                 {(provided) => (
@@ -169,7 +179,7 @@ function BoardContent({ id }: { id: string }) {
                                                                                 {card.description}
                                                                             </p>
                                                                         </div>
-                                                                        <DeleteCardButton cardId={card.id} onCardDeleted={refetch}/>
+                                                                        <DeleteCardButton cardId={card.id}/>
                                                                     </div>
                                                                 )}
                                                             </Draggable>
@@ -182,14 +192,14 @@ function BoardContent({ id }: { id: string }) {
                                                 )}
                                             </Droppable>
 
-                                            <AddCardButton columnId={column.id} onCardAdded={refetch}/>
+                                            <AddCardButton columnId={column.id}/>
                                         </div>
                                     )}
                                 </Draggable>
                             ))}
                             {provided.placeholder}
                             <div className="bg-white p-4 rounded shadow w-64 flex flex-col items-start justify-start border border-gray-300">
-                                <AddColumnButton boardId={id} existingColumnCount={board.columns.length} onColumnAdded={refetch}/>
+                                <AddColumnButton boardId={id} existingColumnCount={board.columns.length}/>
                             </div>
                         </div>
                     )}

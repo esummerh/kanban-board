@@ -1199,6 +1199,32 @@ export type UpdateCardOrderMutation = {
   } | null;
 };
 
+export type OnBoardUpdatedSubscriptionVariables = Exact<{
+  boardId: Scalars["uuid"]["input"];
+}>;
+
+export type OnBoardUpdatedSubscription = {
+  __typename?: "subscription_root";
+  boards_by_pk?: {
+    __typename?: "boards";
+    id: string;
+    name: string;
+    columns: Array<{
+      __typename?: "columns";
+      id: string;
+      name: string;
+      order: number;
+      cards: Array<{
+        __typename?: "cards";
+        id: string;
+        title: string;
+        description?: string | null;
+        order?: number | null;
+      }>;
+    }>;
+  } | null;
+};
+
 export const BoardsDocument = gql`
   query Boards {
     boards {
@@ -1917,3 +1943,60 @@ export type UpdateCardOrderMutationOptions =
     UpdateCardOrderMutation,
     UpdateCardOrderMutationVariables
   >;
+export const OnBoardUpdatedDocument = gql`
+  subscription OnBoardUpdated($boardId: uuid!) {
+    boards_by_pk(id: $boardId) {
+      id
+      name
+      columns(order_by: { order: asc }) {
+        id
+        name
+        order
+        cards(order_by: { order: asc }) {
+          id
+          title
+          description
+          order
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useOnBoardUpdatedSubscription__
+ *
+ * To run a query within a React component, call `useOnBoardUpdatedSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useOnBoardUpdatedSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useOnBoardUpdatedSubscription({
+ *   variables: {
+ *      boardId: // value for 'boardId'
+ *   },
+ * });
+ */
+export function useOnBoardUpdatedSubscription(
+  baseOptions: ApolloReactHooks.SubscriptionHookOptions<
+    OnBoardUpdatedSubscription,
+    OnBoardUpdatedSubscriptionVariables
+  > &
+    (
+      | { variables: OnBoardUpdatedSubscriptionVariables; skip?: boolean }
+      | { skip: boolean }
+    ),
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useSubscription<
+    OnBoardUpdatedSubscription,
+    OnBoardUpdatedSubscriptionVariables
+  >(OnBoardUpdatedDocument, options);
+}
+export type OnBoardUpdatedSubscriptionHookResult = ReturnType<
+  typeof useOnBoardUpdatedSubscription
+>;
+export type OnBoardUpdatedSubscriptionResult =
+  ApolloReactCommon.SubscriptionResult<OnBoardUpdatedSubscription>;
