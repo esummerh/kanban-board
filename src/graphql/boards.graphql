@@ -77,3 +77,21 @@ mutation DeleteColumn($id: uuid!) {
     id
   }
 }
+
+mutation UpdateColumnOrder($id: uuid!, $order: Int!) {
+  update_columns_by_pk(pk_columns: { id: $id }, _set: { order: $order }) {
+    id
+    order
+  }
+}
+
+mutation UpdateCardOrder($id: uuid!, $order: Int!, $column_id: uuid) {
+  update_cards_by_pk(
+    pk_columns: { id: $id }
+    _set: { order: $order, column_id: $column_id }
+  ) {
+    id
+    order
+    column_id
+  }
+}

@@ -1169,6 +1169,36 @@ export type DeleteColumnMutation = {
   delete_columns_by_pk?: { __typename?: "columns"; id: string } | null;
 };
 
+export type UpdateColumnOrderMutationVariables = Exact<{
+  id: Scalars["uuid"]["input"];
+  order: Scalars["Int"]["input"];
+}>;
+
+export type UpdateColumnOrderMutation = {
+  __typename?: "mutation_root";
+  update_columns_by_pk?: {
+    __typename?: "columns";
+    id: string;
+    order: number;
+  } | null;
+};
+
+export type UpdateCardOrderMutationVariables = Exact<{
+  id: Scalars["uuid"]["input"];
+  order: Scalars["Int"]["input"];
+  column_id?: InputMaybe<Scalars["uuid"]["input"]>;
+}>;
+
+export type UpdateCardOrderMutation = {
+  __typename?: "mutation_root";
+  update_cards_by_pk?: {
+    __typename?: "cards";
+    id: string;
+    order?: number | null;
+    column_id: string;
+  } | null;
+};
+
 export const BoardsDocument = gql`
   query Boards {
     boards {
@@ -1776,3 +1806,114 @@ export type DeleteColumnMutationOptions = ApolloReactCommon.BaseMutationOptions<
   DeleteColumnMutation,
   DeleteColumnMutationVariables
 >;
+export const UpdateColumnOrderDocument = gql`
+  mutation UpdateColumnOrder($id: uuid!, $order: Int!) {
+    update_columns_by_pk(pk_columns: { id: $id }, _set: { order: $order }) {
+      id
+      order
+    }
+  }
+`;
+export type UpdateColumnOrderMutationFn = ApolloReactCommon.MutationFunction<
+  UpdateColumnOrderMutation,
+  UpdateColumnOrderMutationVariables
+>;
+
+/**
+ * __useUpdateColumnOrderMutation__
+ *
+ * To run a mutation, you first call `useUpdateColumnOrderMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateColumnOrderMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateColumnOrderMutation, { data, loading, error }] = useUpdateColumnOrderMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      order: // value for 'order'
+ *   },
+ * });
+ */
+export function useUpdateColumnOrderMutation(
+  baseOptions?: ApolloReactHooks.MutationHookOptions<
+    UpdateColumnOrderMutation,
+    UpdateColumnOrderMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useMutation<
+    UpdateColumnOrderMutation,
+    UpdateColumnOrderMutationVariables
+  >(UpdateColumnOrderDocument, options);
+}
+export type UpdateColumnOrderMutationHookResult = ReturnType<
+  typeof useUpdateColumnOrderMutation
+>;
+export type UpdateColumnOrderMutationResult =
+  ApolloReactCommon.MutationResult<UpdateColumnOrderMutation>;
+export type UpdateColumnOrderMutationOptions =
+  ApolloReactCommon.BaseMutationOptions<
+    UpdateColumnOrderMutation,
+    UpdateColumnOrderMutationVariables
+  >;
+export const UpdateCardOrderDocument = gql`
+  mutation UpdateCardOrder($id: uuid!, $order: Int!, $column_id: uuid) {
+    update_cards_by_pk(
+      pk_columns: { id: $id }
+      _set: { order: $order, column_id: $column_id }
+    ) {
+      id
+      order
+      column_id
+    }
+  }
+`;
+export type UpdateCardOrderMutationFn = ApolloReactCommon.MutationFunction<
+  UpdateCardOrderMutation,
+  UpdateCardOrderMutationVariables
+>;
+
+/**
+ * __useUpdateCardOrderMutation__
+ *
+ * To run a mutation, you first call `useUpdateCardOrderMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateCardOrderMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateCardOrderMutation, { data, loading, error }] = useUpdateCardOrderMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      order: // value for 'order'
+ *      column_id: // value for 'column_id'
+ *   },
+ * });
+ */
+export function useUpdateCardOrderMutation(
+  baseOptions?: ApolloReactHooks.MutationHookOptions<
+    UpdateCardOrderMutation,
+    UpdateCardOrderMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useMutation<
+    UpdateCardOrderMutation,
+    UpdateCardOrderMutationVariables
+  >(UpdateCardOrderDocument, options);
+}
+export type UpdateCardOrderMutationHookResult = ReturnType<
+  typeof useUpdateCardOrderMutation
+>;
+export type UpdateCardOrderMutationResult =
+  ApolloReactCommon.MutationResult<UpdateCardOrderMutation>;
+export type UpdateCardOrderMutationOptions =
+  ApolloReactCommon.BaseMutationOptions<
+    UpdateCardOrderMutation,
+    UpdateCardOrderMutationVariables
+  >;

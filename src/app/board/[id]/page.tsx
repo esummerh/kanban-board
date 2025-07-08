@@ -13,6 +13,7 @@ import { DeleteColumnButton } from '@/components/DeleteColumnButton'
 import { ProtectedRoute } from '@/components/ProtectedRoute'
 import { useState, useEffect } from 'react'
 import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd'
+import { useUpdateColumnOrderMutation, useUpdateCardOrderMutation } from '@/graphql/generated-boards'
 
 type CardType = {
     id: string
@@ -32,28 +33,32 @@ function BoardContent({ id }: { id: string }) {
     const { data, loading, error, refetch } = useGetBoardQuery({ variables: { id }, skip: !id, })
     console.log(data?.boards_by_pk?.columns)
 
-    const [columns, setColumns] = useState<ColumnType[]>([]);
+    const [columns, setColumns] = useState<ColumnType[]>([])
+    const [updateColumnOrder] = useUpdateColumnOrderMutation()
+    const [updateCardOrder] = useUpdateCardOrderMutation()
     
     const board = data?.boards_by_pk
 
     useEffect(() => {
-        if (board?.columns) {
+        if (board?.columns && columns.length === 0) {
             const sorted = [...board.columns]
                 .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
                 .map((col) => ({
                     id: col.id,
                     name: col.name,
                     order: col.order,
-                    cards: col.cards.map((card) => ({
-                    id: card.id,
-                    title: card.title,
-                    description: card.description,
-                    order: card.order ?? 0,
-                    })),
-                }));
+                    cards: [...col.cards]
+                        .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+                        .map((card) => ({
+                            id: card.id,
+                            title: card.title,
+                            description: card.description,
+                            order: card.order ?? 0,
+                        })),
+                }))
             setColumns(sorted);
         }
-    }, [board])
+    }, [board, columns.length])
 
     if (loading) return <p>Loading...</p>;
     if (data) console.log("Board data:", data);
@@ -61,7 +66,7 @@ function BoardContent({ id }: { id: string }) {
     if (!board) return <p>Board not found</p>;
     
 
-    const handleDragEnd = (result: DropResult) => {
+    const handleDragEnd = async (result: DropResult) => {
         const { source, destination, type } = result
         if (!destination) return
 
@@ -70,6 +75,15 @@ function BoardContent({ id }: { id: string }) {
             const [moved] = reordered.splice(source.index, 1)
             reordered.splice(destination.index, 0, moved)
             setColumns(reordered)
+
+            for (let i=0; i<reordered.length; i++) {
+                await updateColumnOrder({
+                    variables: {
+                        id: reordered[i].id,
+                        order: i,
+                    },
+                })
+            }
             return
         }
 
@@ -88,6 +102,16 @@ function BoardContent({ id }: { id: string }) {
             const updated = [...columns]
             updated[sourceColIndex] = { ...sourceCol, cards: sourceCards }
             setColumns(updated)
+
+            for (let i = 0; i < sourceCards.length; i++) {
+                await updateCardOrder({
+                    variables: {
+                        id: sourceCards[i].id,
+                        order: i,
+                        column_id: sourceCol.id,
+                    },
+                })
+            }
         } else {
             const destCards = [...destCol.cards]
             destCards.splice(destination.index, 0, movedCard)
@@ -95,6 +119,25 @@ function BoardContent({ id }: { id: string }) {
             updated[sourceColIndex] = { ...sourceCol, cards: sourceCards }
             updated[destColIndex] = { ...destCol, cards: destCards }
             setColumns(updated)
+
+            for (let i = 0; i < sourceCards.length; i++) {
+                await updateCardOrder({
+                    variables: {
+                        id: sourceCards[i].id,
+                        order: i,
+                        column_id: sourceCol.id,
+                    },
+                })
+            }
+            for (let i = 0; i < destCards.length; i++) {
+                await updateCardOrder({
+                    variables: {
+                        id: destCards[i].id,
+                        order: i,
+                        column_id: destCol.id,
+                    },
+                })
+            }
         }
     }
 
@@ -132,6 +175,9 @@ function BoardContent({ id }: { id: string }) {
                                                             </Draggable>
                                                         ))}
                                                         {provided.placeholder}
+                                                        {column.cards.length === 0 && (
+                                                            <div className="h-10 bg-transparent border border-dashed border-gray-300 rounded"/>
+                                                        )}
                                                     </div>
                                                 )}
                                             </Droppable>
