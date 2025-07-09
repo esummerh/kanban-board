@@ -36,6 +36,12 @@ export default function LoginPage() {
     console.log('UserId:', userId)
 
     useEffect(() => {
+        if (userId) {
+            router.replace('/boards')
+        }
+    }, [userId, router])
+
+    useEffect(() => {
         if (loggedIn) {
             router.push('/boards')
         }
