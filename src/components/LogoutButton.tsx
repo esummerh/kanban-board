@@ -15,8 +15,10 @@ export const LogoutButton = () => {
     const handleLogout = async () => {
         setIsLoggingOut(true)
         try {
-            await apolloClient.clearStore();
+            
+            await apolloClient.stop()
             await nhost.auth.signOut()
+            await apolloClient.resetStore();
             
             router.replace('/login')
         } catch (err) {
