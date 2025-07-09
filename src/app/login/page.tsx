@@ -7,9 +7,12 @@ import { useUserId } from '@nhost/nextjs'
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import Link from 'next/link'
+import { useAuthenticationStatus } from '@nhost/nextjs'
 
 export default function LoginPage() {
     const router = useRouter();
+
+    const { isAuthenticated, isLoading } = useAuthenticationStatus()
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -36,10 +39,10 @@ export default function LoginPage() {
     console.log('UserId:', userId)
 
     useEffect(() => {
-        if (userId) {
-            router.replace('/boards')
+        if (!isLoading && isAuthenticated) {
+            router.push('/boards')
         }
-    }, [userId, router])
+    }, [isAuthenticated, isLoading, router])
 
     useEffect(() => {
         if (loggedIn) {

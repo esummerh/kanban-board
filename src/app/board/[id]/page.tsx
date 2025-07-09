@@ -157,7 +157,7 @@ function BoardContent({ id }: { id: string }) {
             <DragDropContext onDragEnd={handleDragEnd}>
                 <Droppable droppableId="board" type="column" direction="horizontal">
                     {(provided) => (
-                        <div ref={provided.innerRef} {...provided.droppableProps} className="flex gap-4">
+                        <div ref={provided.innerRef} {...provided.droppableProps} className="flex gap-4 overflow-x-auto pb-4" style={{ minHeight: '100px' }}>
                             {columns.map((column, colIndex) => (
                                 <Draggable draggableId={column.id} index={colIndex} key={column.id}>
                                     {(provided) => (
