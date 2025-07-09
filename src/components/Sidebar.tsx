@@ -42,20 +42,22 @@ export const Sidebar = () => {
             <div>
                 <h2 className="text-lg font-semibold mb-4">Boards</h2>
                 <ul className="space-y-2">
-                    {data?.boards.map((board) => (
-                        <li key={board.id} className="flex justify-between items-center">
-                            <Link href={`/board/${board.id}`} className="block p-2 rounded hover:bg-gray-200 transition">
-                                {board.name}
-                            </Link>
-                            <Button
-                                variant="ghost"
-                                className="text-red-600 px-2"
-                                onClick={() => handleDelete(board.id)}
-                            >
-                                x
-                            </Button>
-                        </li>
-                    ))}
+                    {data?.boards.map((board) => {
+                        const isActive = board.id === currentBoardId;
+                        return (
+                            <li key={board.id} className="flex justify-between items-center">
+                                <Link href={`/board/${board.id}`} className={`block p-2 rounded transition w-full ${ isActive ? 'bg-white font-semibold border-l-4 border-blue-500 text-black' : 'hover:bg-gray-200'}`}>
+                                    {board.name}
+                                </Link>
+                                <Button
+                                    variant="ghost"
+                                    className="text-red-600 px-2"
+                                    onClick={() => handleDelete(board.id)}
+                                >
+                                    x
+                                </Button>
+                            </li>
+                    )})}
                 </ul>
             </div>
             <div className="mt-auto">
