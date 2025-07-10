@@ -17,6 +17,7 @@
     "@nhost/nextjs": "2.2.9",
     "@nhost/nhost-js": "3.3.0",
     "@radix-ui/react-slot": "^1.2.3",
+    "@react-email/components": "^0.2.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "graphql": "^16.11.0",
