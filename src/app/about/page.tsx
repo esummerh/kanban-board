@@ -1,4 +1,6 @@
-import Counter from '../../components/Counter';
+// Counter component from components directory
+import Counter from '../../components/Counter'
+// Custom button ui component
 import { Button } from "@/components/ui/button"
 
 // Page function to render the Counter

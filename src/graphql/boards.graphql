@@ -1,3 +1,4 @@
+# Fetch all boards, no filters
 query Boards {
   boards {
     id
@@ -5,6 +6,7 @@ query Boards {
   }
 }
 
+# Fetch boards created by logged-in user
 query GetBoards {
   boards(where: { user_id: { _eq: "X-Hasura-User-Id" } }) {
     id
@@ -12,7 +14,9 @@ query GetBoards {
   }
 }
 
+# Fetch a specific board and all of the columns and cards, sorted by order
 query GetBoard($id: uuid!) {
+  # Boards by primary key
   boards_by_pk(id: $id) {
     id
     name
@@ -30,6 +34,7 @@ query GetBoard($id: uuid!) {
   }
 }
 
+# Add a new board (name required)
 mutation InsertBoard($name: String!) {
   insert_boards_one(object: { name: $name }) {
     id
@@ -37,18 +42,21 @@ mutation InsertBoard($name: String!) {
   }
 }
 
+# Add column(s) to a board
 mutation InsertColumns($objects: [columns_insert_input!]!) {
   insert_columns(objects: $objects) {
-    affected_rows
+    affected_rows # Returns number of columns that were inserted
   }
 }
 
+# Delete a board by ID
 mutation DeleteBoard($id: uuid!) {
   delete_boards_by_pk(id: $id) {
-    id
+    id # Return deleted board's ID
   }
 }
 
+# Update a column name
 mutation UpdateColumn($id: uuid!, $name: String!) {
   update_columns_by_pk(pk_columns: { id: $id }, _set: { name: $name }) {
     id
@@ -56,6 +64,7 @@ mutation UpdateColumn($id: uuid!, $name: String!) {
   }
 }
 
+# Add a new card to a specific column
 mutation InsertCard($column_id: uuid!, $title: String!, $description: String!) {
   insert_cards_one(
     object: { column_id: $column_id, title: $title, description: $description }
@@ -66,18 +75,21 @@ mutation InsertCard($column_id: uuid!, $title: String!, $description: String!) {
   }
 }
 
+# Delete a card by ID
 mutation DeleteCard($id: uuid!) {
   delete_cards_by_pk(id: $id) {
     id
   }
 }
 
+# Delete a column by ID
 mutation DeleteColumn($id: uuid!) {
   delete_columns_by_pk(id: $id) {
     id
   }
 }
 
+# Update a column's position
 mutation UpdateColumnOrder($id: uuid!, $order: Int!) {
   update_columns_by_pk(pk_columns: { id: $id }, _set: { order: $order }) {
     id
@@ -85,6 +97,7 @@ mutation UpdateColumnOrder($id: uuid!, $order: Int!) {
   }
 }
 
+# Update a card's position and its parent column
 mutation UpdateCardOrder($id: uuid!, $order: Int!, $column_id: uuid) {
   update_cards_by_pk(
     pk_columns: { id: $id }
@@ -96,6 +109,7 @@ mutation UpdateCardOrder($id: uuid!, $order: Int!, $column_id: uuid) {
   }
 }
 
+# Real-time subscription to board updates
 subscription OnBoardUpdated($boardId: uuid!) {
   boards_by_pk(id: $boardId) {
     id

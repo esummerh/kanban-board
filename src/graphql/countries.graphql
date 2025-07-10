@@ -1,5 +1,8 @@
+# Query operation definition for GetCountries
 query GetCountries {
+  # Asking for countries field from GraphQL API
   countries {
+    # For each country, we want the name and the code
     code
     name
   }
